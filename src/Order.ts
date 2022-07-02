@@ -1,14 +1,14 @@
-import Item, { TaxItem } from "./Item";
+import { Item, TaxItem } from "./Item";
 
 export default class Order {
-  public items: TaxItem[];
+  public items: (TaxItem | Item)[];
 
   constructor() {
     this.items = [];
   }
 
-  addItem(newItem: TaxItem) {
-    if (newItem instanceof TaxItem) {
+  addItem(newItem: TaxItem | Item) {
+    if (newItem instanceof TaxItem || newItem instanceof Item) {
       this.items.push(newItem);
     } else {
       throw Error('not a item!');
@@ -22,17 +22,11 @@ export default class Order {
 
   getTaxes() {
     const totalTax = this.items.reduce((sumTax, item) => {
-      let tax = 0;
-
-      if (item.category === 'Beer') {
-        tax = 0.2;
-      } else if (item.category === 'Cigar') {
-        tax = 0.25;
-      } else if (item.category === 'Eletronics') {
-        tax = 0.3;
+      if (item instanceof TaxItem) {
+        return sumTax + item.getTax()
+      } else {
+        return sumTax;
       }
-      
-      return sumTax + (item.calculateTax(tax));
     }, 0);
 
     return totalTax;
