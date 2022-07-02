@@ -1,4 +1,4 @@
-export class Item {
+export abstract class Item {
   public category: string;
   public description: string;
   public price: number;
@@ -10,16 +10,14 @@ export class Item {
   }
 }
 
-export class TaxItem extends Item {
+export abstract class TaxItem extends Item {
   public tax: number;
   constructor(category: string, description: string, price: number) {
     super(category, description, price);
     this.tax = 0;
   }
 
-  getTax() {
-    return this.price * this.tax;
-  }
+  abstract getTax(): number;
 }
 
 export class Water extends Item {
@@ -39,6 +37,10 @@ export class Beer extends TaxItem {
     super(category, description, price);
     this.tax = 0.2;
   }
+
+  getTax(): number {
+    return this.price * this.tax;
+  }
 }
 
 export class Cigar extends TaxItem {
@@ -48,11 +50,19 @@ export class Cigar extends TaxItem {
     super(category, description, price);
     this.tax = 0.25;
   }
+  
+  getTax(): number {
+    return this.price * this.tax;
+  }
 }
 
 export class Eletronics extends TaxItem {
   constructor(category: string, description: string, price: number) {
     super(category, description, price);
     this.tax = 0.3;
+  }
+
+  getTax(): number {
+    return this.price * this.tax;
   }
 }
