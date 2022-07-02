@@ -1,14 +1,14 @@
-import Item from "./Item";
+import Item, { TaxItem } from "./Item";
 
 export default class Order {
-  public items: Item[];
+  public items: TaxItem[];
 
   constructor() {
     this.items = [];
   }
 
-  addItem(newItem: Item) {
-    if (newItem instanceof Item) {
+  addItem(newItem: TaxItem) {
+    if (newItem instanceof TaxItem) {
       this.items.push(newItem);
     } else {
       throw Error('not a item!');
@@ -32,7 +32,7 @@ export default class Order {
         tax = 0.3;
       }
       
-      return sumTax + (item.price * tax);
+      return sumTax + (item.calculateTax(tax));
     }, 0);
 
     return totalTax;

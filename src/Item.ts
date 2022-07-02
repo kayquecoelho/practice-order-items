@@ -9,3 +9,13 @@ export default class Item {
     this.price = price;
   }
 }
+
+export class TaxItem extends Item {
+  constructor(category: string, description: string, price: number) {
+    super(category, description, price);
+  }
+
+  calculateTax(tax: number) {
+    return this.price * tax;
+  }
+}
